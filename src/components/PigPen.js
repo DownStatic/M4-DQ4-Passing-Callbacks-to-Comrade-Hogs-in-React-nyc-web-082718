@@ -1,5 +1,6 @@
 import React from "react"
 import Pig from "./Pig.js"
+import wreee from '../assets/wreee.mp3';
 import GalaxySNote7 from "./GalaxySNote7.js"
 import exclaim from '../assets/exclaim.mp3';
 
@@ -17,7 +18,11 @@ export default class PigPen extends React.Component {
     this.state = {
       environment: "docile"
     }
+    this.wreee = new Audio(wreee)
     this.audio = new Audio(exclaim)
+    this.audio.addEventListener("ended", () => {
+      this.relax()
+    }, false)
   }
 
   relax = () => {
@@ -28,6 +33,7 @@ export default class PigPen extends React.Component {
   alterEnvironment = (vibe) => {
     if (vibe === "inhospitable")
       this.audio.play()
+      this.wreee.play()
     const newState = {environment: vibe}
     this.setState(newState)
   }
@@ -43,7 +49,7 @@ export default class PigPen extends React.Component {
     return(
       <div id="pig-pen">
         {sheeple}
-        <GalaxySNote7 environment={null} alterEnvironment={null} />
+        <GalaxySNote7 environment={this.state.environment} alterEnvironment={this.alterEnvironment} />
       </div>
     )
   }
